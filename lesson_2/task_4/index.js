@@ -45,7 +45,7 @@ module.exports = ( arr1, arr2 ) => {
 			}
 		});
 	});
-	const rest = arr1Сlone.filter((i) => i);
+	const rest = arr1Сlone.filter((i) => i !== null);
 	rest.sort((a, b) => a - b);
 	return output.concat(rest);
 }
