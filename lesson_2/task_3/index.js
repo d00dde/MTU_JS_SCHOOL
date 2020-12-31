@@ -1,16 +1,11 @@
-const validSymbols = ['(', ')', '{', '}', '[', ']'];
-const maxLength = 104;
+const VALID_SYMBOLS = ['(', ')', '{', '}', '[', ']'];
+const MAX_LENGTH = 104;
 
 function validateInput ( symbols ) {
-	if(symbols.length < 1 || symbols.length > maxLength) {
-		return false;
-	}
-	for(let i = 0; i < symbols.length; i++) {
-		if(!validSymbols.includes(symbols[i])){
-			return false;
-		}
-	}
-	return true;
+	if(symbols.length < 1 || symbols.length > MAX_LENGTH)
+		throw new Error('Длина строки не соответствует условиям');
+	if(symbols.some((symbol) => !VALID_SYMBOLS.includes(symbol)))
+		throw new Error('Строка содержит недопустимые символы');
 }
 
 function isOpening ( symbol ) {
@@ -32,8 +27,7 @@ function isPair (closing, opening) {
 
 module.exports = ( input ) => {
 	const symbols = input.split('');
-	if(!validateInput(symbols))
-		return false;
+	validateInput(symbols);
 	const openingStack = [];
 	for( let i = 0; i < symbols.length; i++) {
 		if(isOpening (symbols[i])) {

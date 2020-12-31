@@ -7,9 +7,19 @@ assert.strictEqual(resolve('(]'), false);
 assert.strictEqual(resolve('([)]'), false);
 assert.strictEqual(resolve('{[]}'), true);
 assert.strictEqual(resolve('{[()]}'), true);
+assert.strictEqual(resolve('((({[]})))'), true);
 assert.strictEqual(resolve('{[]}('), false);
 assert.strictEqual(resolve('({[]}'), false);
-assert.strictEqual(resolve('{[(42)]}'), false);
+assert.throws(() => resolve("{[(42)]"), {
+	message: "Строка содержит недопустимые символы",
+});
+assert.throws(() => resolve(""), {
+	message: "Длина строки не соответствует условиям",
+});
+const bigStr = new Array(105).fill('(').join('');
+assert.throws(() => resolve(bigStr), {
+	message: "Длина строки не соответствует условиям",
+});
 
 /*
 Problem 3.

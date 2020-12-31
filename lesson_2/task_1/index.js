@@ -1,7 +1,7 @@
-const validSymbols = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
-const maxNumber = 3999;
-const maxLength = 15;
-const values = {
+const VALID_SYMBOLS = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
+const MAX_NUMBER = 3999;
+const MAX_LENGTH = 15;
+const VALUES = {
 	I: 1,
 	V: 5,
 	X: 10,
@@ -28,39 +28,24 @@ function isDecrement( symbol, nextSymbol ) {
 }
 
 function validateInput ( symbols ) {
-	if(symbols.length < 1 || symbols.length > maxLength) {
-		return false;
-	}
-	for(let i = 0; i < symbols.length; i++) {
-		if(!validSymbols.includes(symbols[i])){
-			return false;
-		}
-	}
-	return true;
+	if(symbols.length < 1 || symbols.length > MAX_LENGTH)
+		throw new Error('Длина строки не соответствует условиям');
+	if(symbols.some((symbol) => !VALID_SYMBOLS.includes(symbol)))
+		throw new Error('Строка содержит недопустимые символы');
 }
 
 module.exports = ( romanNumber ) => {
 	const symbols = romanNumber.split('');
-	if(!validateInput(symbols)) {
-		return -1;
-	}
-	let total = 0;
-	let skipNext = false;
-	symbols.forEach((symbol, index) => {
-		if(skipNext) {
-			skipNext = false;
-			return;
-		}
-		const nextSymbol = symbols[index + 1];
-		if(isDecrement(symbol, nextSymbol)) {
-			skipNext = true;
-			total = total + values[nextSymbol] - values[symbol];
+	validateInput(symbols);
+	const total = symbols.reduce((total, symbol, index) => {
+		if(isDecrement(symbol, symbols[index + 1])) {
+			return total - VALUES[symbol];
 		} else {
-			total += values[symbol];
+			return total + VALUES[symbol];
 		}
-	});
-	if( total > maxNumber) {
-		return -1;
-	}
+	}, 0);
+
+	if( total > MAX_NUMBER )
+		throw new Error('Число превышает допустимое значение');
 	return total;
 }

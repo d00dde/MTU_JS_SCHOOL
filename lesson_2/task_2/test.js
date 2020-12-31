@@ -2,13 +2,19 @@ const assert = require("assert");
 const resolve = require("./index.js");
 
 assert.strictEqual(resolve(123), false);
-assert.strictEqual(resolve('1111'), false);
 assert.strictEqual(resolve(1111), true);
 assert.strictEqual(resolve(1234321), true);
-assert.strictEqual(resolve(123.321), false);
 assert.strictEqual(resolve(-113321), false);
 assert.strictEqual(resolve(123321), true);
-assert.strictEqual(resolve(123456654321), false); // число более 2**31 - 1 = 2147483647
+assert.throws(() => resolve(123456654321), {
+	message: "Число находится вне допустимого диапазона",
+});
+assert.throws(() => resolve('1111'), {
+	message: "Введено не натуральное число",
+});
+assert.throws(() => resolve(123.321), {
+	message: "Введено не натуральное число",
+});
 
 /*
 Problem 2

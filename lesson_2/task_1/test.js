@@ -6,7 +6,18 @@ assert.strictEqual(resolve("VI"), 6);
 assert.strictEqual(resolve("IX"), 9);
 assert.strictEqual(resolve("LVIII"), 58);
 assert.strictEqual(resolve("MCMXCIV"), 1994);
-assert.strictEqual(resolve("MCMXCIEV"), -1);
+assert.throws(() => resolve("MCMXCIEV"), {
+	message: "Строка содержит недопустимые символы",
+});
+assert.throws(() => resolve(""), {
+	message: "Длина строки не соответствует условиям",
+});
+assert.throws(() => resolve("DMMMCDDDLCCCXLLL"), {
+	message: "Длина строки не соответствует условиям",
+});
+assert.throws(() => resolve("MMMDDD"), {
+	message: "Число превышает допустимое значение",
+});
 
 /*
 Problem 1
