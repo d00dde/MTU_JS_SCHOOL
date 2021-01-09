@@ -1,27 +1,27 @@
-const validationErr = require('../validationError');
+const validationErr = require('../Errors').validationError;
 const MAX_LENGTH = 1000;
 const MAX_VALUE = 1000;
 
 function validateInput(arr1, arr2) {
   if (arr1.length < 1 || arr1.length > MAX_LENGTH)
-    throw validationErr('Длина массива arr1 не соотвествует условиям');
+    throw validationErr('arr1 length does not meet the conditions');
   if (arr2.length < 1 || arr2.length > MAX_LENGTH)
-    throw validationErr('Длина массива arr2 не соотвествует условиям');
+    throw validationErr('arr2 length does not meet the conditions');
   if (
     arr1.some((item) => !Number.isInteger(item) || item > MAX_VALUE || item < 0)
   )
-    throw validationErr('Массив arr1 содержит недопустимые элементы');
+    throw validationErr('arr1 contains invalid elements');
   if (
     arr2.some((item) => !Number.isInteger(item) || item > MAX_VALUE || item < 0)
   )
-    throw validationErr('Массив arr2 содержит недопустимые элементы');
+    throw validationErr('arr2 contains invalid elements');
   if (arr2.some((item) => !arr1.includes(item)))
-    throw validationErr('Массив arr1 не содержит элементы из массива arr2');
+    throw validationErr('arr1 does not contain elements from the arr2');
 
   for (let i = 0; i < arr2.length - 1; i++) {
     for (let j = i + 1; j < arr2.length; j++) {
       if (arr2[i] === arr2[j])
-        throw validationErr('Элементы массива arr2 не уникальны');
+        throw validationErr('arr2 elements are not unique');
     }
   }
 }

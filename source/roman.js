@@ -1,4 +1,4 @@
-const validationErr = require('../validationError');
+const validationErr = require('../Errors').validationError;
 const VALID_SYMBOLS = ['I', 'V', 'X', 'L', 'C', 'D', 'M'];
 const MAX_NUMBER = 3999;
 const MAX_LENGTH = 15;
@@ -30,9 +30,9 @@ function isDecrement(symbol, nextSymbol) {
 
 function validateInput(symbols) {
   if (symbols.length < 1 || symbols.length > MAX_LENGTH)
-    throw validationErr('Длина строки не соответствует условиям');
+    throw validationErr('String length does not meet conditions');
   if (symbols.some((symbol) => !VALID_SYMBOLS.includes(symbol)))
-    throw validationErr('Строка содержит недопустимые символы');
+    throw validationErr('The string contains invalid characters');
 }
 
 module.exports = (romanNumber) => {
@@ -47,6 +47,6 @@ module.exports = (romanNumber) => {
   }, 0);
 
   if (total > MAX_NUMBER)
-    throw validationErr('Число превышает допустимое значение');
+    throw validationErr('The number exceeds the allowed value');
   return total;
 };
