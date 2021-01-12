@@ -72,8 +72,8 @@ module.exports = [
       },
       {
         name: 'should be equal true (max true palindrome)',
-        input: 2147447421,
-        value: false,
+        input: 2147447412,
+        value: true,
       },
       {
         name: 'should be equal false (max number)',
