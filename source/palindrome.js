@@ -1,14 +1,19 @@
-const validationErr = require('../Errors').validationError;
+const validationError = require('../Errors').validationError;
 const MIN = -1 * 2 ** 31;
 const MAX = 2 ** 31 - 1;
 
 function validateInput(number) {
-  if (!Number.isInteger(number)) throw validationErr('Not an integer entered');
+  if (isNaN(number)) {
+    throw validationError('Invalid number in input');
+  }
+  if (!Number.isInteger(number))
+    throw validationError('Not an integer entered');
   if (number < MIN || number > MAX)
-    throw validationErr('The number is out of range');
+    throw validationError('The number is out of range');
 }
 
-module.exports = (number) => {
+module.exports = (input) => {
+  const number = +input;
   validateInput(number);
   const digits = number.toString().split('');
   const halfIndex = Math.floor(digits.length / 2);

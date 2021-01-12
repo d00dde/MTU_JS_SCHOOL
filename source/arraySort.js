@@ -17,11 +17,10 @@ function validateInput(arr1, arr2) {
     throw validationErr('arr2 contains invalid elements');
   if (arr2.some((item) => !arr1.includes(item)))
     throw validationErr('arr1 does not contain elements from the arr2');
-
   for (let i = 0; i < arr2.length - 1; i++) {
     for (let j = i + 1; j < arr2.length; j++) {
       if (arr2[i] === arr2[j])
-        throw validationErr('arr2 elements are not unique');
+        throw validationErr('arr2 elements are not distinct');
     }
   }
 }

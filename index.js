@@ -9,12 +9,15 @@ app.use((req, _, next) => {
   if (!req.is('application/json')) {
     throw contentError('Content type must be JSON');
   }
+  if (typeof req.body !== 'object') {
+    throw contentError('Request body must be an object');
+  }
   next();
 });
 app.post('/api/tasks/roman', (req, res) => {
   // Генерация "непредвиденной" ошибки сервера.
   if (req.body.input === 'error') {
-    throw new Error();
+    throw new Error('Testing server error');
   }
   require('./ContentValidators').romanValidate(req.body);
   const result = require('./source/roman')(req.body.input);
