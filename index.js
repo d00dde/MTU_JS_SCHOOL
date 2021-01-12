@@ -1,10 +1,12 @@
 const express = require('express');
 const contentError = require('./Errors').contentError;
 const { HOST, PORT } = require('./config');
+const cors = require('cors');
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 app.use((req, _, next) => {
   if (!req.is('application/json')) {
     throw contentError('Content type must be JSON');
