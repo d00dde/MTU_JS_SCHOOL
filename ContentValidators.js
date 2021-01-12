@@ -10,8 +10,8 @@ module.exports = {
   palindromeValidate: (body) => {
     if (body.input === 'undefined')
       throw contentError("Required field 'input'");
-    if (typeof body.input !== 'number')
-      throw contentError('Value must be a number');
+    if (!(typeof body.input === 'number' || typeof body.input === 'string'))
+      throw contentError('Incorrect type of input');
   },
   arraySortValidate: (body) => {
     if (body.arr1 === 'undefined') throw contentError("Required field 'arr1'");

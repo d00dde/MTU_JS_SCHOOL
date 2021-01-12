@@ -3,14 +3,19 @@ module.exports = [
     route: '/api/tasks/roman',
     positive: [
       {
-        name: 'should be equal 3',
-        input: 'III',
-        value: 3,
+        name: 'should be equal 1',
+        input: 'I',
+        value: 1,
       },
       {
-        name: 'should be equal 640',
-        input: 'DCXL',
-        value: 640,
+        name: 'should be equal 3999 (lower case)',
+        input: 'mmmcmxcix',
+        value: 3999,
+      },
+      {
+        name: 'should be equal 3999',
+        input: 'MMMCMXCIX',
+        value: 3999,
       },
     ],
     negative: [
@@ -25,9 +30,29 @@ module.exports = [
         message: 'String length does not meet conditions',
       },
       {
+        name: 'should error invalid length',
+        input: 'MMMCMCCCXCXXXIXX',
+        message: 'String length does not meet conditions',
+      },
+      {
         name: 'should error exceeds the allowed value',
-        input: 'MMMDDD',
+        input: 'MMMCMCCCXCXXXIX',
         message: 'The number exceeds the allowed value',
+      },
+      {
+        name: 'should error repeat over 3 characters',
+        input: 'XXXX',
+        message: 'Invalid Roman number (over 3 repeats characters)',
+      },
+      {
+        name: 'should error repeat single characters',
+        input: 'MMMDDD',
+        message: 'Invalid Roman number (repeat single characters)',
+      },
+      {
+        name: 'should error wrong characters order',
+        input: 'XXC',
+        message: 'Invalid Roman number (wrong characters order)',
       },
       {
         name: 'should unexpected error on the server', // Проверка "непредвиденной" ошибки сервера
@@ -41,21 +66,41 @@ module.exports = [
     route: '/api/tasks/palindrome',
     positive: [
       {
+        name: 'should be equal false (min number)',
+        input: -2147483648,
+        value: false,
+      },
+      {
+        name: 'should be equal true (max true palindrome)',
+        input: 2147447421,
+        value: false,
+      },
+      {
+        name: 'should be equal false (max number)',
+        input: 2147483647,
+        value: false,
+      },
+      {
         name: 'should be equal true',
         input: 12321,
         value: true,
       },
       {
-        name: 'should be equal false',
-        input: 2234321,
-        value: false,
+        name: 'should be equal true (string input)',
+        input: '123321',
+        value: true,
       },
     ],
     negative: [
       {
+        name: 'should error invalid number',
+        input: '1233w21',
+        message: 'Invalid number in input',
+      },
+      {
         name: 'should error invalid type',
-        input: '123321',
-        message: 'Value must be a number',
+        input: [123321],
+        message: 'Incorrect type of input',
       },
       {
         name: 'should error not integer',
@@ -86,7 +131,7 @@ module.exports = [
     negative: [
       {
         name: 'should error invalid characters',
-        input: '{[(42)]',
+        input: '{[(42)]}',
         message: 'The string contains invalid characters',
       },
       {
@@ -123,6 +168,22 @@ module.exports = [
         message: 'arr1 length does not meet the conditions',
       },
       {
+        name: 'should error arr1 length is 0',
+        input: {
+          arr1: [],
+          arr2: [2, 1, 4, 3, 9, 6],
+        },
+        message: 'arr1 length does not meet the conditions',
+      },
+      {
+        name: 'should error arr2 length is over 1000',
+        input: {
+          arr1: [2, 3, 1, 3, 2, 4, 6, 22, 7, 9, 2, 19],
+          arr2: new Array(1001).fill(null).map((_, i) => i),
+        },
+        message: 'arr2 length does not meet the conditions',
+      },
+      {
         name: 'should error arr2 length is 0',
         input: {
           arr1: [2, 3, 1, 3, 2, 4, 6, 22, 7, 9, 2, 19],
@@ -155,12 +216,12 @@ module.exports = [
         message: 'arr1 does not contain elements from the arr2',
       },
       {
-        name: 'should error arr2 elements are not unique',
+        name: 'should error arr2 elements are not distinct',
         input: {
           arr1: [2, 3, 1, 3, 2, 4, 6, 22, 7, 9, 2, 19],
           arr2: [2, 1, 4, 3, 9, 6, 2],
         },
-        message: 'arr2 elements are not unique',
+        message: 'arr2 elements are not distinct',
       },
     ],
   },
@@ -183,6 +244,22 @@ module.exports = [
         },
         value: 1,
       },
+      {
+        name: 'should be equal 0 (target lower any nums element)',
+        input: {
+          nums: [1, 3, 5, 6],
+          target: 0,
+        },
+        value: 0,
+      },
+      {
+        name: 'should be equal 1 (target larger any nums element)',
+        input: {
+          nums: [1, 3, 5, 6],
+          target: 42,
+        },
+        value: 4,
+      },
     ],
     negative: [
       {
@@ -194,7 +271,15 @@ module.exports = [
         message: 'nums contains invalid elements',
       },
       {
-        name: 'should error target is not an integer',
+        name: 'should error target is not a integer',
+        input: {
+          nums: [1, 3, 5, 6],
+          target: 2.5,
+        },
+        message: 'target must be an integer',
+      },
+      {
+        name: 'should error target is not a number',
         input: {
           nums: [1, 3, 5, 6],
           target: [2],
@@ -208,6 +293,14 @@ module.exports = [
           target: 2,
         },
         message: 'nums must be sorted correctly',
+      },
+      {
+        name: 'should error nums elements are not distinct',
+        input: {
+          nums: [1, 3, 3, 5, 6],
+          target: 2,
+        },
+        message: 'nums elements are not distinct',
       },
     ],
   },
