@@ -7,7 +7,6 @@ module.exports = {
       throw contentError('Value must be a string');
   },
   palindromeValidate: (body) => {
-    console.log(body);
     if (body.input === undefined) throw contentError("Required field 'input'");
     if (!(typeof body.input === 'number' || typeof body.input === 'string'))
       throw contentError('Incorrect type of input');
